@@ -21,7 +21,7 @@ Create or have an array of the following primitive types: `int`, `short`, `doubl
 
 ```c
 int arr[] = { 1, 5, 10 };
-int32_iterator iterator = f_int32_init(arr, 3);
+int_iterator iterator = f_int_init(arr, 3);
 ```
 
 The iterator has many functions to manipulate the array: `map`, `find`, `filter`, `some`, `every`, `indexOf`, `sort`. You may call the functions from the iterator itself by accessing its properties or by referencing the functions themselves.
