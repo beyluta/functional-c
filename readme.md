@@ -11,7 +11,7 @@ Include the headers for the primitive data types that you require or include all
 #include "float_functional.h"
 #include "char_functional.h"
 
-// Or only the following to include all the of the above
+// Or only the following to include all
 #include "functional.h"
 ```
 
