@@ -2,7 +2,7 @@
 #define SHORT_ITERATOR
 
 #include <stdlib.h>
-#define new_short(size) (short *)malloc(size * sizeof(short))
+#include "functional_types.h"
 
 struct short_iterator f_short_init(short *arr, int len);
 
@@ -30,7 +30,7 @@ typedef struct short_iterator
  */
 struct short_iterator short_map(short (*func)(short, int), struct short_iterator iterator)
 {
-    short *new_iterator = new_short(iterator.len);
+    short *new_iterator = new (short, iterator.len);
     for (int i = 0; i < iterator.len; i++)
     {
         new_iterator[i] = func(iterator.iterator[i], i);
@@ -120,7 +120,7 @@ int short_indexOf(short var, struct short_iterator iterator)
  */
 struct short_iterator short_sort(struct short_iterator iterator, int direction)
 {
-    short *new_iterator = new_short(iterator.len);
+    short *new_iterator = new (short, iterator.len);
     for (int i = 0; i < iterator.len; i++)
     {
         new_iterator[i] = iterator.iterator[i];
@@ -175,7 +175,7 @@ struct short_iterator short_filter(char condition, short var, struct short_itera
             size++;
         }
     }
-    short *pIterator = new_short(size);
+    short *pIterator = new (short, size);
     int index = 0;
     for (int i = 0; i < iterator.len; i++)
     {

@@ -2,7 +2,7 @@
 #define DOUBLE_ITERATOR
 
 #include <stdlib.h>
-#define new_double(size) (double *)malloc(size * sizeof(double))
+#include "functional_types.h"
 
 struct double_iterator f_double_init(double *arr, int len);
 
@@ -30,7 +30,7 @@ typedef struct double_iterator
  */
 struct double_iterator double_map(double (*func)(double, int), struct double_iterator iterator)
 {
-    double *new_iterator = new_double(iterator.len);
+    double *new_iterator = new (double, iterator.len);
     for (int i = 0; i < iterator.len; i++)
     {
         new_iterator[i] = func(iterator.iterator[i], i);
@@ -120,7 +120,7 @@ int double_indexOf(double var, struct double_iterator iterator)
  */
 struct double_iterator double_sort(struct double_iterator iterator, int direction)
 {
-    double *new_iterator = new_double(iterator.len);
+    double *new_iterator = new (double, iterator.len);
     for (int i = 0; i < iterator.len; i++)
     {
         new_iterator[i] = iterator.iterator[i];
@@ -175,7 +175,7 @@ struct double_iterator double_filter(char condition, double var, struct double_i
             size++;
         }
     }
-    double *pIterator = new_double(size);
+    double *pIterator = new (double, size);
     int index = 0;
     for (int i = 0; i < iterator.len; i++)
     {

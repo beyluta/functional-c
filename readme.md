@@ -36,24 +36,24 @@ int_iterator pSorted2 = int_sort(iterator, 0);
 
 ```c
 #include <stdio.h>
-#include "int_functional.h"
+#include "functional.h"
 
 int inflate(int sale, int index)
 {
     return sale + 10;
 }
 
-int isYearlyQuotaComplete()
+int main()
 {
     // Array (can also be heap allocated)
     int monthlySales[] = {15, 40, 30, 34, 34, 23, 33, 8, 3, 4, 18, 5};
     int size = sizeof(monthlySales) / sizeof(monthlySales[0]);
 
     // Initializing the struct
-    int_iterator sales = f_int_init(monthlySales, size);
+    iterator(int) sales = init_iterator(int, monthlySales, size);
 
     // Applying a filter
-    int_iterator filteredSales = sales.filter('>', 20, sales);
+    iterator(int) filteredSales = sales.filter('>', 20, sales);
 
     // Checking whether all values are 0
     int noSales = sales.every(0, sales);
@@ -73,16 +73,15 @@ int isYearlyQuotaComplete()
     }
 
     // Applying a filter
-    int_iterator underperformers = sales.filter('<', 20, sales);
+    iterator(int) underperformers = sales.filter('<', 20, sales);
 
     // Inflating values that underperformed
-    int_iterator inflatedUnderperformers = underperformers.map(inflate, underperformers);
+    iterator(int) inflatedUnderperformers = underperformers.map(inflate, underperformers);
 
     // Memory cleanup
-    f_int_destroy(sales);
-    f_int_destroy(filteredSales);
-    f_int_destroy(underperformers);
-    f_int_destroy(inflatedUnderperformers);
+    destroy_iterator(int, filteredSales);
+    destroy_iterator(int, underperformers);
+    destroy_iterator(int, inflatedUnderperformers);
 
     return 0;
 }

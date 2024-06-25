@@ -2,7 +2,7 @@
 #define CHAR_ITERATOR
 
 #include <stdlib.h>
-#define new_char(size) (char *)malloc(size * sizeof(char))
+#include "functional_types.h"
 
 struct char_iterator f_char_init(char *arr, int len);
 
@@ -30,7 +30,7 @@ typedef struct char_iterator
  */
 struct char_iterator char_map(char (*func)(char, int), struct char_iterator iterator)
 {
-    char *new_iterator = new_char(iterator.len);
+    char *new_iterator = new (char, iterator.len);
     for (int i = 0; i < iterator.len; i++)
     {
         new_iterator[i] = func(iterator.iterator[i], i);
@@ -120,7 +120,7 @@ int char_indexOf(char var, struct char_iterator iterator)
  */
 struct char_iterator char_sort(struct char_iterator iterator, int direction)
 {
-    char *new_iterator = new_char(iterator.len);
+    char *new_iterator = new (char, iterator.len);
     for (int i = 0; i < iterator.len; i++)
     {
         new_iterator[i] = iterator.iterator[i];
@@ -175,7 +175,7 @@ struct char_iterator char_filter(char condition, char var, struct char_iterator 
             size++;
         }
     }
-    char *pIterator = new_char(size);
+    char *pIterator = new (char, size);
     int index = 0;
     for (int i = 0; i < iterator.len; i++)
     {

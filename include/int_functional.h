@@ -2,7 +2,7 @@
 #define int_ITERATOR
 
 #include <stdlib.h>
-#define new_int(size) (int *)malloc(size * sizeof(int))
+#include "functional_types.h"
 
 struct int_iterator f_int_init(int *arr, int len);
 
@@ -30,7 +30,7 @@ typedef struct int_iterator
  */
 struct int_iterator int_map(int (*func)(int, int), struct int_iterator iterator)
 {
-    int *new_iterator = new_int(iterator.len);
+    int *new_iterator = new (int, iterator.len);
     for (int i = 0; i < iterator.len; i++)
     {
         new_iterator[i] = func(iterator.iterator[i], i);
@@ -120,7 +120,7 @@ int int_indexOf(int var, struct int_iterator iterator)
  */
 struct int_iterator int_sort(struct int_iterator iterator, int direction)
 {
-    int *new_iterator = new_int(iterator.len);
+    int *new_iterator = new (int, iterator.len);
     for (int i = 0; i < iterator.len; i++)
     {
         new_iterator[i] = iterator.iterator[i];
@@ -175,7 +175,7 @@ struct int_iterator int_filter(char condition, int var, struct int_iterator iter
             size++;
         }
     }
-    int *pIterator = new_int(size);
+    int *pIterator = new (int, size);
     int index = 0;
     for (int i = 0; i < iterator.len; i++)
     {

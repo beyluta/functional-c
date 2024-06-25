@@ -2,7 +2,7 @@
 #define FLOAT_ITERATOR
 
 #include <stdlib.h>
-#define new_float(size) (float *)malloc(size * sizeof(float))
+#include "functional_types.h"
 
 struct float_iterator f_float_init(float *arr, int len);
 
@@ -30,7 +30,7 @@ typedef struct float_iterator
  */
 struct float_iterator float_map(float (*func)(float, int), struct float_iterator iterator)
 {
-    float *new_iterator = new_float(iterator.len);
+    float *new_iterator = new (float, iterator.len);
     for (int i = 0; i < iterator.len; i++)
     {
         new_iterator[i] = func(iterator.iterator[i], i);
@@ -120,7 +120,7 @@ int float_indexOf(float var, struct float_iterator iterator)
  */
 struct float_iterator float_sort(struct float_iterator iterator, int direction)
 {
-    float *new_iterator = new_float(iterator.len);
+    float *new_iterator = new (float, iterator.len);
     for (int i = 0; i < iterator.len; i++)
     {
         new_iterator[i] = iterator.iterator[i];
@@ -175,7 +175,7 @@ struct float_iterator float_filter(char condition, float var, struct float_itera
             size++;
         }
     }
-    float *pIterator = new_float(size);
+    float *pIterator = new (float, size);
     int index = 0;
     for (int i = 0; i < iterator.len; i++)
     {
