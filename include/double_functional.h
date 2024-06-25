@@ -20,6 +20,7 @@ typedef struct double_iterator
     int (*indexOf)(double var, struct double_iterator iterator);
     struct double_iterator (*sort)(struct double_iterator iterator, int direction);
     struct double_iterator (*filter)(char condition, double var, struct double_iterator iterator);
+    struct double_iterator (*splice)(int from, int to, struct double_iterator iterator);
 } double_iterator;
 
 /**
@@ -187,6 +188,11 @@ struct double_iterator double_filter(char condition, double var, struct double_i
     return f_double_init(pIterator, size);
 }
 
+struct double_iterator double_splice(int from, int to, struct double_iterator iterator)
+{
+    iterator_splice(double, iterator, from, to);
+}
+
 /**
  * @brief Initializes an iterator for an int32
  * @param[in] arr pointer to the first element of the array
@@ -204,7 +210,8 @@ struct double_iterator f_double_init(double *arr, int len)
         iterator.every = double_every,
         iterator.indexOf = double_indexOf,
         iterator.sort = double_sort,
-        iterator.filter = double_filter};
+        iterator.filter = double_filter,
+        iterator.splice = double_splice};
     return iterator;
 }
 

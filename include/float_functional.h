@@ -20,6 +20,7 @@ typedef struct float_iterator
     int (*indexOf)(float var, struct float_iterator iterator);
     struct float_iterator (*sort)(struct float_iterator iterator, int direction);
     struct float_iterator (*filter)(char condition, float var, struct float_iterator iterator);
+    struct float_iterator (*splice)(int from, int to, struct float_iterator iterator);
 } float_iterator;
 
 /**
@@ -187,6 +188,11 @@ struct float_iterator float_filter(char condition, float var, struct float_itera
     return f_float_init(pIterator, size);
 }
 
+struct float_iterator float_splice(int from, int to, struct float_iterator iterator)
+{
+    iterator_splice(float, iterator, from, to);
+}
+
 /**
  * @brief Initializes an iterator for an int32
  * @param[in] arr pointer to the first element of the array
@@ -204,7 +210,8 @@ struct float_iterator f_float_init(float *arr, int len)
         iterator.every = float_every,
         iterator.indexOf = float_indexOf,
         iterator.sort = float_sort,
-        iterator.filter = float_filter};
+        iterator.filter = float_filter,
+        iterator.splice = float_splice};
     return iterator;
 }
 

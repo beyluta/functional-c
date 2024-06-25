@@ -20,6 +20,7 @@ typedef struct int_iterator
     int (*indexOf)(int var, struct int_iterator iterator);
     struct int_iterator (*sort)(struct int_iterator iterator, int direction);
     struct int_iterator (*filter)(char condition, int var, struct int_iterator iterator);
+    struct int_iterator (*splice)(int from, int to, struct int_iterator iterator);
 } int_iterator;
 
 /**
@@ -187,6 +188,11 @@ struct int_iterator int_filter(char condition, int var, struct int_iterator iter
     return f_int_init(pIterator, size);
 }
 
+struct int_iterator int_splice(int from, int to, struct int_iterator iterator)
+{
+    iterator_splice(int, iterator, from, to);
+}
+
 /**
  * @brief Initializes an iterator for an int
  * @param[in] arr pointer to the first element of the array
@@ -204,7 +210,8 @@ struct int_iterator f_int_init(int *arr, int len)
         iterator.every = int_every,
         iterator.indexOf = int_indexOf,
         iterator.sort = int_sort,
-        iterator.filter = int_filter};
+        iterator.filter = int_filter,
+        iterator.splice = int_splice};
     return iterator;
 }
 

@@ -20,6 +20,7 @@ typedef struct short_iterator
     int (*indexOf)(short var, struct short_iterator iterator);
     struct short_iterator (*sort)(struct short_iterator iterator, int direction);
     struct short_iterator (*filter)(char condition, short var, struct short_iterator iterator);
+    struct short_iterator (*splice)(int from, int to, struct short_iterator iterator);
 } short_iterator;
 
 /**
@@ -187,6 +188,11 @@ struct short_iterator short_filter(char condition, short var, struct short_itera
     return f_short_init(pIterator, size);
 }
 
+struct short_iterator short_splice(int from, int to, struct short_iterator iterator)
+{
+    iterator_splice(short, iterator, from, to);
+}
+
 /**
  * @brief Initializes an iterator for an int32
  * @param[in] arr pointer to the first element of the array
@@ -204,7 +210,8 @@ struct short_iterator f_short_init(short *arr, int len)
         iterator.every = short_every,
         iterator.indexOf = short_indexOf,
         iterator.sort = short_sort,
-        iterator.filter = short_filter};
+        iterator.filter = short_filter,
+        iterator.splice = short_splice};
     return iterator;
 }
 

@@ -20,6 +20,7 @@ typedef struct char_iterator
     int (*indexOf)(char var, struct char_iterator iterator);
     struct char_iterator (*sort)(struct char_iterator iterator, int direction);
     struct char_iterator (*filter)(char condition, char var, struct char_iterator iterator);
+    struct char_iterator (*splice)(int from, int to, struct char_iterator iterator);
 } char_iterator;
 
 /**
@@ -185,6 +186,11 @@ struct char_iterator char_filter(char condition, char var, struct char_iterator 
         }
     }
     return f_char_init(pIterator, size);
+}
+
+struct char_iterator char_splice(int from, int to, struct char_iterator iterator)
+{
+    iterator_splice(char, iterator, from, to);
 }
 
 /**
