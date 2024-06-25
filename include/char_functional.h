@@ -4,20 +4,21 @@
 #include <stdlib.h>
 #define new_char(size) (char *)malloc(size * sizeof(char))
 
-struct char_iterator f_char_init(char* arr, int len);
+struct char_iterator f_char_init(char *arr, int len);
 
 /**
  * @brief `char` struct object containing properties and functions
  */
-typedef struct char_iterator {
-    char* iterator;
+typedef struct char_iterator
+{
+    char *iterator;
     int len;
     struct char_iterator (*map)(char (*func)(char, int), struct char_iterator iterator);
     char (*find)(char var, struct char_iterator iterator);
     int (*some)(char var, struct char_iterator iterator);
     int (*every)(char var, struct char_iterator iterator);
     int (*indexOf)(char var, struct char_iterator iterator);
-    char *(*sort)(struct char_iterator iterator, int direction);
+    struct char_iterator (*sort)(struct char_iterator iterator, int direction);
     struct char_iterator (*filter)(char condition, char var, struct char_iterator iterator);
 } char_iterator;
 
@@ -27,9 +28,11 @@ typedef struct char_iterator {
  * @param[in] iterator struct object
  * @warning return value must be freed
  */
-struct char_iterator char_map(char (*func)(char, int), struct char_iterator iterator) {
+struct char_iterator char_map(char (*func)(char, int), struct char_iterator iterator)
+{
     char *new_iterator = new_char(iterator.len);
-    for (int i = 0; i < iterator.len; i++) {
+    for (int i = 0; i < iterator.len; i++)
+    {
         new_iterator[i] = func(iterator.iterator[i], i);
     }
     return f_char_init(new_iterator, iterator.len);
@@ -41,9 +44,12 @@ struct char_iterator char_map(char (*func)(char, int), struct char_iterator iter
  * @param[in] iterator struct object
  * @return element found or 0
  */
-char char_find(char var, struct char_iterator iterator) {
-    for (int i = 0; i < iterator.len; i++) {
-        if (iterator.iterator[i] == var) {
+char char_find(char var, struct char_iterator iterator)
+{
+    for (int i = 0; i < iterator.len; i++)
+    {
+        if (iterator.iterator[i] == var)
+        {
             return var;
         }
     }
@@ -56,10 +62,13 @@ char char_find(char var, struct char_iterator iterator) {
  * @param[in] iterator struct object
  * @return 0 or 1
  */
-int char_some(char var, struct char_iterator iterator) {
+int char_some(char var, struct char_iterator iterator)
+{
     int some = 0;
-    for (int i = 0; i < iterator.len; i++) {
-        if (iterator.iterator[i] == var) {
+    for (int i = 0; i < iterator.len; i++)
+    {
+        if (iterator.iterator[i] == var)
+        {
             return 1;
         }
     }
@@ -72,10 +81,13 @@ int char_some(char var, struct char_iterator iterator) {
  * @param[in] iterator struct object
  * @return 0 or 1
  */
-int char_every(char var, struct char_iterator iterator) {
+int char_every(char var, struct char_iterator iterator)
+{
     int every = 1;
-    for (int i = 0; i < iterator.len; i++) {
-        if (iterator.iterator[i] != var) {
+    for (int i = 0; i < iterator.len; i++)
+    {
+        if (iterator.iterator[i] != var)
+        {
             return 0;
         }
     }
@@ -88,9 +100,12 @@ int char_every(char var, struct char_iterator iterator) {
  * @param[in] iterator struct object
  * @return index or -1 in case of failure
  */
-int char_indexOf(char var, struct char_iterator iterator) {
-        for (int i = 0; i < iterator.len; i++) {
-        if (iterator.iterator[i] == var) {
+int char_indexOf(char var, struct char_iterator iterator)
+{
+    for (int i = 0; i < iterator.len; i++)
+    {
+        if (iterator.iterator[i] == var)
+        {
             return i;
         }
     }
@@ -103,34 +118,43 @@ int char_indexOf(char var, struct char_iterator iterator) {
  * @param[in] direction `0` or `1` for ASC and DESC
  * @return the sorted array
  */
-char *char_sort(struct char_iterator iterator, int direction)
+struct char_iterator char_sort(struct char_iterator iterator, int direction)
 {
+    char *new_iterator = new_char(iterator.len);
     for (int i = 0; i < iterator.len; i++)
+    {
+        new_iterator[i] = iterator.iterator[i];
+    }
+    struct char_iterator new_struct_iterator = f_char_init(new_iterator, iterator.len);
+
+    for (int i = 0; i < new_struct_iterator.len; i++)
     {
         if (direction)
         {
-            for (int j = 0; j < iterator.len; j++)
+            for (int j = 0; j < new_struct_iterator.len; j++)
             {
-                if (i != j && iterator.iterator[i] < iterator.iterator[j])
+                if (i != j && new_struct_iterator.iterator[i] < new_struct_iterator.iterator[j])
                 {
-                    char temp = iterator.iterator[i];
-                    iterator.iterator[i] = iterator.iterator[j];
-                    iterator.iterator[j] = temp;
+                    char temp = new_struct_iterator.iterator[i];
+                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
+                    new_struct_iterator.iterator[j] = temp;
                 }
             }
-        } else {
-            for (int j = 0; j < iterator.len; j++)
+        }
+        else
+        {
+            for (int j = 0; j < new_struct_iterator.len; j++)
             {
-                if (i != j && iterator.iterator[i] > iterator.iterator[j])
+                if (i != j && new_struct_iterator.iterator[i] > new_struct_iterator.iterator[j])
                 {
-                    char temp = iterator.iterator[i];
-                    iterator.iterator[i] = iterator.iterator[j];
-                    iterator.iterator[j] = temp;
+                    char temp = new_struct_iterator.iterator[i];
+                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
+                    new_struct_iterator.iterator[j] = temp;
                 }
             }
         }
     }
-    return iterator.iterator;
+    return new_struct_iterator;
 }
 
 /**
@@ -144,15 +168,19 @@ char *char_sort(struct char_iterator iterator, int direction)
 struct char_iterator char_filter(char condition, char var, struct char_iterator iterator)
 {
     int size = 0;
-    for (int i = 0; i < iterator.len; i++) {
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var) {
+    for (int i = 0; i < iterator.len; i++)
+    {
+        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var)
+        {
             size++;
         }
     }
     char *pIterator = new_char(size);
     int index = 0;
-    for (int i = 0; i < iterator.len; i++) {
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var) {
+    for (int i = 0; i < iterator.len; i++)
+    {
+        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var)
+        {
             pIterator[index++] = iterator.iterator[i];
         }
     }
@@ -165,7 +193,8 @@ struct char_iterator char_filter(char condition, char var, struct char_iterator 
  * @param[in] len length of the array
  * @return the initialied struct object
  */
-struct char_iterator f_char_init(char* arr, int len) {
+struct char_iterator f_char_init(char *arr, int len)
+{
     struct char_iterator iterator = {
         iterator.iterator = arr,
         iterator.len = len,
@@ -175,8 +204,7 @@ struct char_iterator f_char_init(char* arr, int len) {
         iterator.every = char_every,
         iterator.indexOf = char_indexOf,
         iterator.sort = char_sort,
-        iterator.filter = char_filter
-    };
+        iterator.filter = char_filter};
     return iterator;
 }
 
@@ -184,9 +212,10 @@ struct char_iterator f_char_init(char* arr, int len) {
  * @brief Destroys the iterator and frees memory if needed
  * @param[in] iterator struct object
  */
-void f_char_destroy(struct char_iterator iterator) 
+void f_char_destroy(struct char_iterator iterator)
 {
-    if (iterator.iterator != NULL) {
+    if (iterator.iterator != NULL)
+    {
         free(iterator.iterator);
     }
 }

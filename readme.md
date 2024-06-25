@@ -27,9 +27,9 @@ int_iterator iterator = f_int_init(arr, 3);
 The iterator has many functions to manipulate the array: `map`, `find`, `filter`, `some`, `every`, `indexOf`, `sort`. You may call the functions from the iterator itself by accessing its properties or by referencing the functions themselves.
 
 ```c
-int* pSorted = iterator.sort(iterator, 0);
+int_iterator sorted = iterator.sort(iterator, 0);
 // Or by calling the function directly
-int *pSorted2 = int32_sort(iterator, 0);
+int_iterator pSorted2 = int_sort(iterator, 0);
 ```
 
 ## Sample Application

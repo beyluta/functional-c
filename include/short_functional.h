@@ -18,7 +18,7 @@ typedef struct short_iterator
     int (*some)(short var, struct short_iterator iterator);
     int (*every)(short var, struct short_iterator iterator);
     int (*indexOf)(short var, struct short_iterator iterator);
-    short *(*sort)(struct short_iterator iterator, int direction);
+    struct short_iterator (*sort)(struct short_iterator iterator, int direction);
     struct short_iterator (*filter)(char condition, short var, struct short_iterator iterator);
 } short_iterator;
 
@@ -118,36 +118,43 @@ int short_indexOf(short var, struct short_iterator iterator)
  * @param[in] direction `0` or `1` for ASC and DESC
  * @return the sorted array
  */
-short *short_sort(struct short_iterator iterator, int direction)
+struct short_iterator short_sort(struct short_iterator iterator, int direction)
 {
+    short *new_iterator = new_short(iterator.len);
     for (int i = 0; i < iterator.len; i++)
+    {
+        new_iterator[i] = iterator.iterator[i];
+    }
+    struct short_iterator new_struct_iterator = f_short_init(new_iterator, iterator.len);
+
+    for (int i = 0; i < new_struct_iterator.len; i++)
     {
         if (direction)
         {
-            for (int j = 0; j < iterator.len; j++)
+            for (int j = 0; j < new_struct_iterator.len; j++)
             {
-                if (i != j && iterator.iterator[i] < iterator.iterator[j])
+                if (i != j && new_struct_iterator.iterator[i] < new_struct_iterator.iterator[j])
                 {
-                    int temp = iterator.iterator[i];
-                    iterator.iterator[i] = iterator.iterator[j];
-                    iterator.iterator[j] = temp;
+                    int temp = new_struct_iterator.iterator[i];
+                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
+                    new_struct_iterator.iterator[j] = temp;
                 }
             }
         }
         else
         {
-            for (int j = 0; j < iterator.len; j++)
+            for (int j = 0; j < new_struct_iterator.len; j++)
             {
-                if (i != j && iterator.iterator[i] > iterator.iterator[j])
+                if (i != j && new_struct_iterator.iterator[i] > new_struct_iterator.iterator[j])
                 {
-                    int temp = iterator.iterator[i];
-                    iterator.iterator[i] = iterator.iterator[j];
-                    iterator.iterator[j] = temp;
+                    int temp = new_struct_iterator.iterator[i];
+                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
+                    new_struct_iterator.iterator[j] = temp;
                 }
             }
         }
     }
-    return iterator.iterator;
+    return new_struct_iterator;
 }
 
 /**

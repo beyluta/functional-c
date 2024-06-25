@@ -18,7 +18,7 @@ typedef struct float_iterator
     int (*some)(float var, struct float_iterator iterator);
     int (*every)(float var, struct float_iterator iterator);
     int (*indexOf)(float var, struct float_iterator iterator);
-    float *(*sort)(struct float_iterator iterator, int direction);
+    struct float_iterator (*sort)(struct float_iterator iterator, int direction);
     struct float_iterator (*filter)(char condition, float var, struct float_iterator iterator);
 } float_iterator;
 
@@ -118,36 +118,43 @@ int float_indexOf(float var, struct float_iterator iterator)
  * @param[in] direction `0` or `1` for ASC and DESC
  * @return the sorted array
  */
-float *float_sort(struct float_iterator iterator, int direction)
+struct float_iterator float_sort(struct float_iterator iterator, int direction)
 {
+    float *new_iterator = new_float(iterator.len);
     for (int i = 0; i < iterator.len; i++)
+    {
+        new_iterator[i] = iterator.iterator[i];
+    }
+    struct float_iterator new_struct_iterator = f_float_init(new_iterator, iterator.len);
+
+    for (int i = 0; i < new_struct_iterator.len; i++)
     {
         if (direction)
         {
-            for (int j = 0; j < iterator.len; j++)
+            for (int j = 0; j < new_struct_iterator.len; j++)
             {
-                if (i != j && iterator.iterator[i] < iterator.iterator[j])
+                if (i != j && new_struct_iterator.iterator[i] < new_struct_iterator.iterator[j])
                 {
-                    float temp = iterator.iterator[i];
-                    iterator.iterator[i] = iterator.iterator[j];
-                    iterator.iterator[j] = temp;
+                    float temp = new_struct_iterator.iterator[i];
+                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
+                    new_struct_iterator.iterator[j] = temp;
                 }
             }
         }
         else
         {
-            for (int j = 0; j < iterator.len; j++)
+            for (int j = 0; j < new_struct_iterator.len; j++)
             {
-                if (i != j && iterator.iterator[i] > iterator.iterator[j])
+                if (i != j && new_struct_iterator.iterator[i] > new_struct_iterator.iterator[j])
                 {
-                    float temp = iterator.iterator[i];
-                    iterator.iterator[i] = iterator.iterator[j];
-                    iterator.iterator[j] = temp;
+                    float temp = new_struct_iterator.iterator[i];
+                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
+                    new_struct_iterator.iterator[j] = temp;
                 }
             }
         }
     }
-    return iterator.iterator;
+    return new_struct_iterator;
 }
 
 /**

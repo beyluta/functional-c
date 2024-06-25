@@ -18,7 +18,7 @@ typedef struct double_iterator
     int (*some)(double var, struct double_iterator iterator);
     int (*every)(double var, struct double_iterator iterator);
     int (*indexOf)(double var, struct double_iterator iterator);
-    double *(*sort)(struct double_iterator iterator, int direction);
+    struct double_iterator (*sort)(struct double_iterator iterator, int direction);
     struct double_iterator (*filter)(char condition, double var, struct double_iterator iterator);
 } double_iterator;
 
@@ -118,36 +118,43 @@ int double_indexOf(double var, struct double_iterator iterator)
  * @param[in] direction `0` or `1` for ASC and DESC
  * @return the sorted array
  */
-double *double_sort(struct double_iterator iterator, int direction)
+struct double_iterator double_sort(struct double_iterator iterator, int direction)
 {
+    double *new_iterator = new_double(iterator.len);
     for (int i = 0; i < iterator.len; i++)
+    {
+        new_iterator[i] = iterator.iterator[i];
+    }
+    struct double_iterator new_struct_iterator = f_double_init(new_iterator, iterator.len);
+
+    for (int i = 0; i < new_struct_iterator.len; i++)
     {
         if (direction)
         {
-            for (int j = 0; j < iterator.len; j++)
+            for (int j = 0; j < new_struct_iterator.len; j++)
             {
-                if (i != j && iterator.iterator[i] < iterator.iterator[j])
+                if (i != j && new_struct_iterator.iterator[i] < new_struct_iterator.iterator[j])
                 {
-                    double temp = iterator.iterator[i];
-                    iterator.iterator[i] = iterator.iterator[j];
-                    iterator.iterator[j] = temp;
+                    double temp = new_struct_iterator.iterator[i];
+                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
+                    new_struct_iterator.iterator[j] = temp;
                 }
             }
         }
         else
         {
-            for (int j = 0; j < iterator.len; j++)
+            for (int j = 0; j < new_struct_iterator.len; j++)
             {
-                if (i != j && iterator.iterator[i] > iterator.iterator[j])
+                if (i != j && new_struct_iterator.iterator[i] > new_struct_iterator.iterator[j])
                 {
-                    double temp = iterator.iterator[i];
-                    iterator.iterator[i] = iterator.iterator[j];
-                    iterator.iterator[j] = temp;
+                    double temp = new_struct_iterator.iterator[i];
+                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
+                    new_struct_iterator.iterator[j] = temp;
                 }
             }
         }
     }
-    return iterator.iterator;
+    return new_struct_iterator;
 }
 
 /**

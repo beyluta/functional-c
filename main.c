@@ -42,7 +42,6 @@ int main()
     int_iterator inflatedUnderperformers = underperformers.map(inflate, underperformers);
 
     // Memory cleanup
-    f_int_destroy(sales);
     f_int_destroy(filteredSales);
     f_int_destroy(underperformers);
     f_int_destroy(inflatedUnderperformers);

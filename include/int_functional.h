@@ -18,7 +18,7 @@ typedef struct int_iterator
     int (*some)(int var, struct int_iterator iterator);
     int (*every)(int var, struct int_iterator iterator);
     int (*indexOf)(int var, struct int_iterator iterator);
-    int *(*sort)(struct int_iterator iterator, int direction);
+    struct int_iterator (*sort)(struct int_iterator iterator, int direction);
     struct int_iterator (*filter)(char condition, int var, struct int_iterator iterator);
 } int_iterator;
 
@@ -118,36 +118,43 @@ int int_indexOf(int var, struct int_iterator iterator)
  * @param[in] direction `0` or `1` for ASC and DESC
  * @return the sorted array
  */
-int *int_sort(struct int_iterator iterator, int direction)
+struct int_iterator int_sort(struct int_iterator iterator, int direction)
 {
+    int *new_iterator = new_int(iterator.len);
     for (int i = 0; i < iterator.len; i++)
+    {
+        new_iterator[i] = iterator.iterator[i];
+    }
+    struct int_iterator new_struct_iterator = f_int_init(new_iterator, iterator.len);
+
+    for (int i = 0; i < new_struct_iterator.len; i++)
     {
         if (direction)
         {
-            for (int j = 0; j < iterator.len; j++)
+            for (int j = 0; j < new_struct_iterator.len; j++)
             {
-                if (i != j && iterator.iterator[i] < iterator.iterator[j])
+                if (i != j && new_struct_iterator.iterator[i] < new_struct_iterator.iterator[j])
                 {
-                    int temp = iterator.iterator[i];
-                    iterator.iterator[i] = iterator.iterator[j];
-                    iterator.iterator[j] = temp;
+                    int temp = new_struct_iterator.iterator[i];
+                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
+                    new_struct_iterator.iterator[j] = temp;
                 }
             }
         }
         else
         {
-            for (int j = 0; j < iterator.len; j++)
+            for (int j = 0; j < new_struct_iterator.len; j++)
             {
-                if (i != j && iterator.iterator[i] > iterator.iterator[j])
+                if (i != j && new_struct_iterator.iterator[i] > new_struct_iterator.iterator[j])
                 {
-                    int temp = iterator.iterator[i];
-                    iterator.iterator[i] = iterator.iterator[j];
-                    iterator.iterator[j] = temp;
+                    int temp = new_struct_iterator.iterator[i];
+                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
+                    new_struct_iterator.iterator[j] = temp;
                 }
             }
         }
     }
-    return iterator.iterator;
+    return new_struct_iterator;
 }
 
 /**
@@ -161,15 +168,19 @@ int *int_sort(struct int_iterator iterator, int direction)
 struct int_iterator int_filter(char condition, int var, struct int_iterator iterator)
 {
     int size = 0;
-    for (int i = 0; i < iterator.len; i++) {
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var) {
+    for (int i = 0; i < iterator.len; i++)
+    {
+        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var)
+        {
             size++;
         }
     }
     int *pIterator = new_int(size);
     int index = 0;
-    for (int i = 0; i < iterator.len; i++) {
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var) {
+    for (int i = 0; i < iterator.len; i++)
+    {
+        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var)
+        {
             pIterator[index++] = iterator.iterator[i];
         }
     }
@@ -201,9 +212,10 @@ struct int_iterator f_int_init(int *arr, int len)
  * @brief Destroys the iterator and frees memory if needed
  * @param[in] iterator struct object
  */
-void f_int_destroy(struct int_iterator iterator) 
+void f_int_destroy(struct int_iterator iterator)
 {
-    if (iterator.iterator != NULL) {
+    if (iterator.iterator != NULL)
+    {
         free(iterator.iterator);
     }
 }
