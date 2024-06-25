@@ -201,7 +201,7 @@ struct int_iterator f_int_init(int *arr, int len)
  * @brief Destroys the iterator and frees memory if needed
  * @param[in] iterator struct object
  */
-int f_int_destroy(struct int_iterator iterator) 
+void f_int_destroy(struct int_iterator iterator) 
 {
     if (iterator.iterator != NULL) {
         free(iterator.iterator);

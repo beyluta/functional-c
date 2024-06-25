@@ -205,7 +205,7 @@ struct float_iterator f_float_init(float *arr, int len)
  * @brief Destroys the iterator and frees memory if needed
  * @param[in] iterator struct object
  */
-int f_float_destroy(struct float_iterator iterator)
+void f_float_destroy(struct float_iterator iterator)
 {
     if (iterator.iterator != NULL)
     {

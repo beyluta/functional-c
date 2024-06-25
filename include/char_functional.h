@@ -184,7 +184,7 @@ struct char_iterator f_char_init(char* arr, int len) {
  * @brief Destroys the iterator and frees memory if needed
  * @param[in] iterator struct object
  */
-int f_char_destroy(struct char_iterator iterator) 
+void f_char_destroy(struct char_iterator iterator) 
 {
     if (iterator.iterator != NULL) {
         free(iterator.iterator);

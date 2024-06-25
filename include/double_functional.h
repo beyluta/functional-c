@@ -205,7 +205,7 @@ struct double_iterator f_double_init(double *arr, int len)
  * @brief Destroys the iterator and frees memory if needed
  * @param[in] iterator struct object
  */
-int f_double_destroy(struct double_iterator iterator)
+void f_double_destroy(struct double_iterator iterator)
 {
     if (iterator.iterator != NULL)
     {

@@ -205,7 +205,7 @@ struct short_iterator f_short_init(short *arr, int len)
  * @brief Destroys the iterator and frees memory if needed
  * @param[in] iterator struct object
  */
-int f_short_destroy(struct short_iterator iterator)
+void f_short_destroy(struct short_iterator iterator)
 {
     if (iterator.iterator != NULL)
     {
