@@ -42,14 +42,7 @@ struct double_iterator double_map(double (*func)(double, int), struct double_ite
  */
 double double_find(double var, struct double_iterator iterator)
 {
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return var;
-        }
-    }
-    return '\n';
+    iterator_find(double, var, iterator);
 }
 
 /**

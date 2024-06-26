@@ -42,14 +42,7 @@ struct float_iterator float_map(float (*func)(float, int), struct float_iterator
  */
 float float_find(float var, struct float_iterator iterator)
 {
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return var;
-        }
-    }
-    return 0.0;
+    iterator_find(float, var, iterator);
 }
 
 /**

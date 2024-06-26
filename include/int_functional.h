@@ -42,14 +42,7 @@ struct int_iterator int_map(int (*func)(int, int), struct int_iterator iterator)
  */
 int int_find(int var, struct int_iterator iterator)
 {
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return var;
-        }
-    }
-    return 0;
+    iterator_find(int, var, iterator);
 }
 
 /**

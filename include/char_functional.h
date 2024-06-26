@@ -42,14 +42,7 @@ struct char_iterator char_map(char (*func)(char, int), struct char_iterator iter
  */
 char char_find(char var, struct char_iterator iterator)
 {
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return var;
-        }
-    }
-    return '\n';
+    iterator_find(char, var, iterator);
 }
 
 /**

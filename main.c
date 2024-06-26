@@ -8,43 +8,13 @@ int inflate(int sale, int index)
 
 int main()
 {
-    // Array (can also be heap allocated)
-    int monthlySales[] = {15, 40, 30, 34, 34, 23, 33, 8, 3, 4, 18, 5};
-    int size = sizeof(monthlySales) / sizeof(monthlySales[0]);
+    float f[] = {1.2, 5.5};
+    int len = sizeof(f) / sizeof(f[0]);
 
-    // Initializing the struct
-    iterator(int) sales = init_iterator(int, monthlySales, size);
+    iterator(float) i1 = init_iterator(float, f, len);
+    int find = i1.find(1.3, i1);
 
-    // Applying a filter
-    iterator(int) filteredSales = sales.filter('>', 20, sales);
-
-    // Checking whether all values are 0
-    int noSales = sales.every(0, sales);
-
-    // Checking whether the targer value 33 is found
-    int targetFound = filteredSales.find(33, sales);
-
-    if (noSales)
-    {
-        printf("Work Harder!");
-    }
-
-    if (targetFound)
-    {
-        int index = sales.indexOf(33, sales);
-        printf("Target is at index %d\n", index);
-    }
-
-    // Applying a filter
-    iterator(int) underperformers = sales.filter('<', 20, sales);
-
-    // Inflating values that underperformed
-    iterator(int) inflatedUnderperformers = underperformers.map(inflate, underperformers);
-
-    // Memory cleanup
-    destroy_iterator(int, filteredSales);
-    destroy_iterator(int, underperformers);
-    destroy_iterator(int, inflatedUnderperformers);
+    printf("%d\n", find);
 
     return 0;
 }

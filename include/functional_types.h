@@ -22,4 +22,14 @@
     }                                                    \
     return init_iterator(type, new_iterator, iterator.len);
 
+#define iterator_find(type, var, iterator) \
+    for (int i = 0; i < iterator.len; i++) \
+    {                                      \
+        if (iterator.iterator[i] == var)   \
+        {                                  \
+            return var;                    \
+        }                                  \
+    }                                      \
+    return 0;
+
 #endif

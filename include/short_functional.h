@@ -42,14 +42,7 @@ struct short_iterator short_map(short (*func)(short, int), struct short_iterator
  */
 short short_find(short var, struct short_iterator iterator)
 {
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return var;
-        }
-    }
-    return '\n';
+    iterator_find(short, var, iterator);
 }
 
 /**
