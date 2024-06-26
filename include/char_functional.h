@@ -53,15 +53,7 @@ char char_find(char var, struct char_iterator iterator)
  */
 int char_some(char var, struct char_iterator iterator)
 {
-    int some = 0;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return 1;
-        }
-    }
-    return some;
+    iterator_some(char, var, iterator);
 }
 
 /**
@@ -72,15 +64,7 @@ int char_some(char var, struct char_iterator iterator)
  */
 int char_every(char var, struct char_iterator iterator)
 {
-    int every = 1;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] != var)
-        {
-            return 0;
-        }
-    }
-    return every;
+    iterator_every(char, var, iterator);
 }
 
 /**
@@ -91,14 +75,7 @@ int char_every(char var, struct char_iterator iterator)
  */
 int char_indexOf(char var, struct char_iterator iterator)
 {
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return i;
-        }
-    }
-    return -1;
+    iterator_indexOf(char, var, iterator);
 }
 
 /**
@@ -109,41 +86,7 @@ int char_indexOf(char var, struct char_iterator iterator)
  */
 struct char_iterator char_sort(struct char_iterator iterator, int direction)
 {
-    char *new_iterator = new (char, iterator.len);
-    for (int i = 0; i < iterator.len; i++)
-    {
-        new_iterator[i] = iterator.iterator[i];
-    }
-    struct char_iterator new_struct_iterator = f_char_init(new_iterator, iterator.len);
-
-    for (int i = 0; i < new_struct_iterator.len; i++)
-    {
-        if (direction)
-        {
-            for (int j = 0; j < new_struct_iterator.len; j++)
-            {
-                if (i != j && new_struct_iterator.iterator[i] < new_struct_iterator.iterator[j])
-                {
-                    char temp = new_struct_iterator.iterator[i];
-                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
-                    new_struct_iterator.iterator[j] = temp;
-                }
-            }
-        }
-        else
-        {
-            for (int j = 0; j < new_struct_iterator.len; j++)
-            {
-                if (i != j && new_struct_iterator.iterator[i] > new_struct_iterator.iterator[j])
-                {
-                    char temp = new_struct_iterator.iterator[i];
-                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
-                    new_struct_iterator.iterator[j] = temp;
-                }
-            }
-        }
-    }
-    return new_struct_iterator;
+    iterator_sort(char, iterator, direction);
 }
 
 /**
@@ -156,24 +99,7 @@ struct char_iterator char_sort(struct char_iterator iterator, int direction)
  */
 struct char_iterator char_filter(char condition, char var, struct char_iterator iterator)
 {
-    int size = 0;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var)
-        {
-            size++;
-        }
-    }
-    char *pIterator = new (char, size);
-    int index = 0;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var)
-        {
-            pIterator[index++] = iterator.iterator[i];
-        }
-    }
-    return f_char_init(pIterator, size);
+    iterator_filter(char, condition, var, iterator);
 }
 
 struct char_iterator char_splice(int from, int to, struct char_iterator iterator)

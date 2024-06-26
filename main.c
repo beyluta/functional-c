@@ -1,20 +1,31 @@
 #include <stdio.h>
 #include "functional.h"
 
-int inflate(int sale, int index)
+int square(int value, int index)
 {
-    return sale + 10;
+    return value * value;
 }
 
 int main()
 {
-    float f[] = {1.2, 5.5};
-    int len = sizeof(f) / sizeof(f[0]);
+    int _numbers[] = {1, 2, 3, 4, 5};
+    int length = sizeof(_numbers) / sizeof(_numbers[0]);
 
-    iterator(float) i1 = init_iterator(float, f, len);
-    int find = i1.find(1.3, i1);
+    iterator(int) numbers = init_iterator(int, _numbers, length);
+    iterator(int) squaredNumbers = numbers.map(square, numbers);
+    iterator(int) halfNumbers = numbers.splice(0, 3, numbers);
 
-    printf("%d\n", find);
+    for (int i = 0; i < squaredNumbers.len; i++)
+    {
+        printf("Squared Value: %d\n", squaredNumbers.iterator[i]);
+    }
 
+    for (int i = 0; i < halfNumbers.len; i++)
+    {
+        printf("Halved Value: %d\n", halfNumbers.iterator[i]);
+    }
+
+    destroy_iterator(int, squaredNumbers);
+    destroy_iterator(int, halfNumbers);
     return 0;
 }

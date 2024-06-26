@@ -2,7 +2,7 @@
 
 A collection of functions to manipulate primitive type arrays like you would in a modern functional language.
 
-Include the headers for the primitive data types that you require or include all of them at once by including the `functional.h` header instead.
+Include the headers for the primitive data types that you require or include all of them at once by including the `functional.h` header instead. The header file `functional_types.h` must always be present.
 
 ```c
 #include "int32_functional.h"
@@ -21,15 +21,15 @@ Create or have an array of the following primitive types: `int`, `short`, `doubl
 
 ```c
 int arr[] = { 1, 5, 10 };
-int_iterator iterator = f_int_init(arr, 3);
+iterator(int) iterator = init_iterator(int, arr, 3);
 ```
 
 The iterator has many functions to manipulate the array: `map`, `find`, `filter`, `some`, `every`, `indexOf`, `sort`. You may call the functions from the iterator itself by accessing its properties or by referencing the functions themselves.
 
 ```c
-int_iterator sorted = iterator.sort(iterator, 0);
+iterator(int) sorted = iterator.sort(iterator, 0);
 // Or by calling the function directly
-int_iterator pSorted2 = int_sort(iterator, 0);
+iterator(int) pSorted2 = int_sort(iterator, 0);
 ```
 
 ## Sample Application

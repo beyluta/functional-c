@@ -53,15 +53,7 @@ int int_find(int var, struct int_iterator iterator)
  */
 int int_some(int var, struct int_iterator iterator)
 {
-    int some = 0;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return 1;
-        }
-    }
-    return some;
+    iterator_some(int, var, iterator);
 }
 
 /**
@@ -72,15 +64,7 @@ int int_some(int var, struct int_iterator iterator)
  */
 int int_every(int var, struct int_iterator iterator)
 {
-    int every = 1;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] != var)
-        {
-            return 0;
-        }
-    }
-    return every;
+    iterator_every(int, var, iterator);
 }
 
 /**
@@ -91,14 +75,7 @@ int int_every(int var, struct int_iterator iterator)
  */
 int int_indexOf(int var, struct int_iterator iterator)
 {
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return i;
-        }
-    }
-    return -1;
+    iterator_indexOf(int, var, iterator);
 }
 
 /**
@@ -109,41 +86,7 @@ int int_indexOf(int var, struct int_iterator iterator)
  */
 struct int_iterator int_sort(struct int_iterator iterator, int direction)
 {
-    int *new_iterator = new (int, iterator.len);
-    for (int i = 0; i < iterator.len; i++)
-    {
-        new_iterator[i] = iterator.iterator[i];
-    }
-    struct int_iterator new_struct_iterator = f_int_init(new_iterator, iterator.len);
-
-    for (int i = 0; i < new_struct_iterator.len; i++)
-    {
-        if (direction)
-        {
-            for (int j = 0; j < new_struct_iterator.len; j++)
-            {
-                if (i != j && new_struct_iterator.iterator[i] < new_struct_iterator.iterator[j])
-                {
-                    int temp = new_struct_iterator.iterator[i];
-                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
-                    new_struct_iterator.iterator[j] = temp;
-                }
-            }
-        }
-        else
-        {
-            for (int j = 0; j < new_struct_iterator.len; j++)
-            {
-                if (i != j && new_struct_iterator.iterator[i] > new_struct_iterator.iterator[j])
-                {
-                    int temp = new_struct_iterator.iterator[i];
-                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
-                    new_struct_iterator.iterator[j] = temp;
-                }
-            }
-        }
-    }
-    return new_struct_iterator;
+    iterator_sort(int, iterator, direction);
 }
 
 /**
@@ -156,24 +99,7 @@ struct int_iterator int_sort(struct int_iterator iterator, int direction)
  */
 struct int_iterator int_filter(char condition, int var, struct int_iterator iterator)
 {
-    int size = 0;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var)
-        {
-            size++;
-        }
-    }
-    int *pIterator = new (int, size);
-    int index = 0;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var)
-        {
-            pIterator[index++] = iterator.iterator[i];
-        }
-    }
-    return f_int_init(pIterator, size);
+    iterator_filter(int, condition, var, iterator);
 }
 
 struct int_iterator int_splice(int from, int to, struct int_iterator iterator)

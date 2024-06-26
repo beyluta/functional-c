@@ -53,15 +53,7 @@ double double_find(double var, struct double_iterator iterator)
  */
 int double_some(double var, struct double_iterator iterator)
 {
-    int some = 0;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return 1;
-        }
-    }
-    return some;
+    iterator_some(double, var, iterator);
 }
 
 /**
@@ -72,15 +64,7 @@ int double_some(double var, struct double_iterator iterator)
  */
 int double_every(double var, struct double_iterator iterator)
 {
-    int every = 1;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] != var)
-        {
-            return 0;
-        }
-    }
-    return every;
+    iterator_every(double, var, iterator);
 }
 
 /**
@@ -91,14 +75,7 @@ int double_every(double var, struct double_iterator iterator)
  */
 int double_indexOf(double var, struct double_iterator iterator)
 {
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return i;
-        }
-    }
-    return -1;
+    iterator_indexOf(double, var, iterator);
 }
 
 /**
@@ -109,41 +86,7 @@ int double_indexOf(double var, struct double_iterator iterator)
  */
 struct double_iterator double_sort(struct double_iterator iterator, int direction)
 {
-    double *new_iterator = new (double, iterator.len);
-    for (int i = 0; i < iterator.len; i++)
-    {
-        new_iterator[i] = iterator.iterator[i];
-    }
-    struct double_iterator new_struct_iterator = f_double_init(new_iterator, iterator.len);
-
-    for (int i = 0; i < new_struct_iterator.len; i++)
-    {
-        if (direction)
-        {
-            for (int j = 0; j < new_struct_iterator.len; j++)
-            {
-                if (i != j && new_struct_iterator.iterator[i] < new_struct_iterator.iterator[j])
-                {
-                    double temp = new_struct_iterator.iterator[i];
-                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
-                    new_struct_iterator.iterator[j] = temp;
-                }
-            }
-        }
-        else
-        {
-            for (int j = 0; j < new_struct_iterator.len; j++)
-            {
-                if (i != j && new_struct_iterator.iterator[i] > new_struct_iterator.iterator[j])
-                {
-                    double temp = new_struct_iterator.iterator[i];
-                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
-                    new_struct_iterator.iterator[j] = temp;
-                }
-            }
-        }
-    }
-    return new_struct_iterator;
+    iterator_sort(double, iterator, direction);
 }
 
 /**
@@ -156,24 +99,7 @@ struct double_iterator double_sort(struct double_iterator iterator, int directio
  */
 struct double_iterator double_filter(char condition, double var, struct double_iterator iterator)
 {
-    int size = 0;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var)
-        {
-            size++;
-        }
-    }
-    double *pIterator = new (double, size);
-    int index = 0;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var)
-        {
-            pIterator[index++] = iterator.iterator[i];
-        }
-    }
-    return f_double_init(pIterator, size);
+    iterator_filter(double, condition, var, iterator);
 }
 
 struct double_iterator double_splice(int from, int to, struct double_iterator iterator)

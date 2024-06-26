@@ -53,15 +53,7 @@ short short_find(short var, struct short_iterator iterator)
  */
 int short_some(short var, struct short_iterator iterator)
 {
-    int some = 0;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return 1;
-        }
-    }
-    return some;
+    iterator_some(short, var, iterator);
 }
 
 /**
@@ -72,15 +64,7 @@ int short_some(short var, struct short_iterator iterator)
  */
 int short_every(short var, struct short_iterator iterator)
 {
-    int every = 1;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] != var)
-        {
-            return 0;
-        }
-    }
-    return every;
+    iterator_every(short, var, iterator);
 }
 
 /**
@@ -91,14 +75,7 @@ int short_every(short var, struct short_iterator iterator)
  */
 int short_indexOf(short var, struct short_iterator iterator)
 {
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (iterator.iterator[i] == var)
-        {
-            return i;
-        }
-    }
-    return -1;
+    iterator_indexOf(short, var, iterator);
 }
 
 /**
@@ -109,41 +86,7 @@ int short_indexOf(short var, struct short_iterator iterator)
  */
 struct short_iterator short_sort(struct short_iterator iterator, int direction)
 {
-    short *new_iterator = new (short, iterator.len);
-    for (int i = 0; i < iterator.len; i++)
-    {
-        new_iterator[i] = iterator.iterator[i];
-    }
-    struct short_iterator new_struct_iterator = f_short_init(new_iterator, iterator.len);
-
-    for (int i = 0; i < new_struct_iterator.len; i++)
-    {
-        if (direction)
-        {
-            for (int j = 0; j < new_struct_iterator.len; j++)
-            {
-                if (i != j && new_struct_iterator.iterator[i] < new_struct_iterator.iterator[j])
-                {
-                    int temp = new_struct_iterator.iterator[i];
-                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
-                    new_struct_iterator.iterator[j] = temp;
-                }
-            }
-        }
-        else
-        {
-            for (int j = 0; j < new_struct_iterator.len; j++)
-            {
-                if (i != j && new_struct_iterator.iterator[i] > new_struct_iterator.iterator[j])
-                {
-                    int temp = new_struct_iterator.iterator[i];
-                    new_struct_iterator.iterator[i] = new_struct_iterator.iterator[j];
-                    new_struct_iterator.iterator[j] = temp;
-                }
-            }
-        }
-    }
-    return new_struct_iterator;
+    iterator_sort(short, iterator, direction);
 }
 
 /**
@@ -156,24 +99,7 @@ struct short_iterator short_sort(struct short_iterator iterator, int direction)
  */
 struct short_iterator short_filter(char condition, short var, struct short_iterator iterator)
 {
-    int size = 0;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var)
-        {
-            size++;
-        }
-    }
-    short *pIterator = new (short, size);
-    int index = 0;
-    for (int i = 0; i < iterator.len; i++)
-    {
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var)
-        {
-            pIterator[index++] = iterator.iterator[i];
-        }
-    }
-    return f_short_init(pIterator, size);
+    iterator_filter(short, condition, var, iterator);
 }
 
 struct short_iterator short_splice(int from, int to, struct short_iterator iterator)
