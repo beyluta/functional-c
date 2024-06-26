@@ -3,7 +3,8 @@
 
 int inflate(int sale, int index)
 {
-    return sale + 10;
+    printf("%d and index %d\n", sale, index);
+    return 666;
 }
 
 int main()
@@ -14,37 +15,9 @@ int main()
 
     // Initializing the struct
     iterator(int) sales = init_iterator(int, monthlySales, size);
+    iterator(int) updated = sales.map(inflate, sales);
 
-    // Applying a filter
-    iterator(int) filteredSales = sales.filter('>', 20, sales);
-
-    // Checking whether all values are 0
-    int noSales = sales.every(0, sales);
-
-    // Checking whether the targer value 33 is found
-    int targetFound = filteredSales.find(33, sales);
-
-    if (noSales)
-    {
-        printf("Work Harder!");
-    }
-
-    if (targetFound)
-    {
-        int index = sales.indexOf(33, sales);
-        printf("Target is at index %d\n", index);
-    }
-
-    // Applying a filter
-    iterator(int) underperformers = sales.filter('<', 20, sales);
-
-    // Inflating values that underperformed
-    iterator(int) inflatedUnderperformers = underperformers.map(inflate, underperformers);
-
-    // Memory cleanup
-    destroy_iterator(int, filteredSales);
-    destroy_iterator(int, underperformers);
-    destroy_iterator(int, inflatedUnderperformers);
+    printf("%d\n", updated.iterator[0]);
 
     return 0;
 }

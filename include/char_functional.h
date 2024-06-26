@@ -31,12 +31,7 @@ typedef struct char_iterator
  */
 struct char_iterator char_map(char (*func)(char, int), struct char_iterator iterator)
 {
-    char *new_iterator = new (char, iterator.len);
-    for (int i = 0; i < iterator.len; i++)
-    {
-        new_iterator[i] = func(iterator.iterator[i], i);
-    }
-    return f_char_init(new_iterator, iterator.len);
+    iterator_map(char, func, iterator);
 }
 
 /**

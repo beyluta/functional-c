@@ -14,4 +14,12 @@
     }                                             \
     return init_iterator(type, newArr, to - from);
 
+#define iterator_map(type, func, iterator)               \
+    type *new_iterator = new (type, iterator.len);       \
+    for (int i = 0; i < iterator.len; i++)               \
+    {                                                    \
+        new_iterator[i] = func(iterator.iterator[i], i); \
+    }                                                    \
+    return init_iterator(type, new_iterator, iterator.len);
+
 #endif

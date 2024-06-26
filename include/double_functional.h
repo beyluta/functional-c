@@ -31,12 +31,7 @@ typedef struct double_iterator
  */
 struct double_iterator double_map(double (*func)(double, int), struct double_iterator iterator)
 {
-    double *new_iterator = new (double, iterator.len);
-    for (int i = 0; i < iterator.len; i++)
-    {
-        new_iterator[i] = func(iterator.iterator[i], i);
-    }
-    return f_double_init(new_iterator, iterator.len);
+    iterator_map(double, func, iterator);
 }
 
 /**

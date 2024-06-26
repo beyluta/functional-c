@@ -31,12 +31,7 @@ typedef struct int_iterator
  */
 struct int_iterator int_map(int (*func)(int, int), struct int_iterator iterator)
 {
-    int *new_iterator = new (int, iterator.len);
-    for (int i = 0; i < iterator.len; i++)
-    {
-        new_iterator[i] = func(iterator.iterator[i], i);
-    }
-    return f_int_init(new_iterator, iterator.len);
+    iterator_map(int, func, iterator);
 }
 
 /**

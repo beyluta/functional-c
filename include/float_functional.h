@@ -31,12 +31,7 @@ typedef struct float_iterator
  */
 struct float_iterator float_map(float (*func)(float, int), struct float_iterator iterator)
 {
-    float *new_iterator = new (float, iterator.len);
-    for (int i = 0; i < iterator.len; i++)
-    {
-        new_iterator[i] = func(iterator.iterator[i], i);
-    }
-    return f_float_init(new_iterator, iterator.len);
+    iterator_map(float, func, iterator);
 }
 
 /**

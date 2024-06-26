@@ -31,12 +31,7 @@ typedef struct short_iterator
  */
 struct short_iterator short_map(short (*func)(short, int), struct short_iterator iterator)
 {
-    short *new_iterator = new (short, iterator.len);
-    for (int i = 0; i < iterator.len; i++)
-    {
-        new_iterator[i] = func(iterator.iterator[i], i);
-    }
-    return f_short_init(new_iterator, iterator.len);
+    iterator_map(short, func, iterator);
 }
 
 /**
