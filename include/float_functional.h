@@ -14,7 +14,7 @@ typedef struct float_iterator
     float *iterator;
     int len;
     struct float_iterator (*map)(float (*func)(float, int), struct float_iterator iterator);
-    float (*find)(float var, struct float_iterator iterator);
+    int (*find)(int (*func)(float, int), struct float_iterator iterator);
     int (*some)(float var, struct float_iterator iterator);
     int (*every)(float var, struct float_iterator iterator);
     int (*indexOf)(float var, struct float_iterator iterator);
@@ -40,9 +40,9 @@ struct float_iterator float_map(float (*func)(float, int), struct float_iterator
  * @param[in] iterator struct object
  * @return element found or 0
  */
-float float_find(float var, struct float_iterator iterator)
+int float_find(int (*func)(float, int), struct float_iterator iterator)
 {
-    iterator_find(float, var, iterator);
+    iterator_find(float, func, iterator);
 }
 
 /**

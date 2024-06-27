@@ -14,7 +14,7 @@ typedef struct short_iterator
     short *iterator;
     int len;
     struct short_iterator (*map)(short (*func)(short, int), struct short_iterator iterator);
-    short (*find)(short var, struct short_iterator iterator);
+    int (*find)(int (*func)(short, int), struct short_iterator iterator);
     int (*some)(short var, struct short_iterator iterator);
     int (*every)(short var, struct short_iterator iterator);
     int (*indexOf)(short var, struct short_iterator iterator);
@@ -40,9 +40,9 @@ struct short_iterator short_map(short (*func)(short, int), struct short_iterator
  * @param[in] iterator struct object
  * @return element found or 0
  */
-short short_find(short var, struct short_iterator iterator)
+int short_find(int (*func)(short, int), struct short_iterator iterator)
 {
-    iterator_find(short, var, iterator);
+    iterator_find(short, func, iterator);
 }
 
 /**

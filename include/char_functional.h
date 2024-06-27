@@ -14,7 +14,7 @@ typedef struct char_iterator
     char *iterator;
     int len;
     struct char_iterator (*map)(char (*func)(char, int), struct char_iterator iterator);
-    char (*find)(char var, struct char_iterator iterator);
+    int (*find)(int (*func)(char, int), struct char_iterator iterator);
     int (*some)(char var, struct char_iterator iterator);
     int (*every)(char var, struct char_iterator iterator);
     int (*indexOf)(char var, struct char_iterator iterator);
@@ -40,9 +40,9 @@ struct char_iterator char_map(char (*func)(char, int), struct char_iterator iter
  * @param[in] iterator struct object
  * @return element found or 0
  */
-char char_find(char var, struct char_iterator iterator)
+int char_find(int (*func)(char, int), struct char_iterator iterator)
 {
-    iterator_find(char, var, iterator);
+    iterator_find(char, func, iterator);
 }
 
 /**

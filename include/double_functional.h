@@ -14,7 +14,7 @@ typedef struct double_iterator
     double *iterator;
     int len;
     struct double_iterator (*map)(double (*func)(double, int), struct double_iterator iterator);
-    double (*find)(double var, struct double_iterator iterator);
+    int (*find)(int (*func)(double, int), struct double_iterator iterator);
     int (*some)(double var, struct double_iterator iterator);
     int (*every)(double var, struct double_iterator iterator);
     int (*indexOf)(double var, struct double_iterator iterator);
@@ -40,9 +40,9 @@ struct double_iterator double_map(double (*func)(double, int), struct double_ite
  * @param[in] iterator struct object
  * @return element found or 0
  */
-double double_find(double var, struct double_iterator iterator)
+int double_find(int (*func)(double, int), struct double_iterator iterator)
 {
-    iterator_find(double, var, iterator);
+    iterator_find(double, func, iterator);
 }
 
 /**

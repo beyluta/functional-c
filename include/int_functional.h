@@ -14,7 +14,7 @@ typedef struct int_iterator
     int *iterator;
     int len;
     struct int_iterator (*map)(int (*func)(int, int), struct int_iterator iterator);
-    int (*find)(int var, struct int_iterator iterator);
+    int (*find)(int (*func)(int, int), struct int_iterator iterator);
     int (*some)(int var, struct int_iterator iterator);
     int (*every)(int var, struct int_iterator iterator);
     int (*indexOf)(int var, struct int_iterator iterator);
@@ -40,9 +40,9 @@ struct int_iterator int_map(int (*func)(int, int), struct int_iterator iterator)
  * @param[in] iterator struct object
  * @return element found or 0
  */
-int int_find(int var, struct int_iterator iterator)
+int int_find(int (*func)(int, int), struct int_iterator iterator)
 {
-    iterator_find(int, var, iterator);
+    iterator_find(int, func, iterator);
 }
 
 /**

@@ -22,14 +22,14 @@
     }                                                    \
     return init_iterator(type, new_iterator, iterator.len);
 
-#define iterator_find(type, var, iterator) \
-    for (int i = 0; i < iterator.len; i++) \
-    {                                      \
-        if (iterator.iterator[i] == var)   \
-        {                                  \
-            return var;                    \
-        }                                  \
-    }                                      \
+#define iterator_find(type, func, iterator) \
+    for (int i = 0; i < iterator.len; i++)  \
+    {                                       \
+        if (func(iterator.iterator[i], i))  \
+        {                                   \
+            return 1;                       \
+        }                                   \
+    }                                       \
     return 0;
 
 #define iterator_some(type, var, iterator) \
