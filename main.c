@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include "functional.h"
 
-int square(int value, int index)
+float square(float value, int index)
 {
     return value * value;
 }
 
-int target(int value, int index)
+int target(float value, int index)
 {
     if (value > 2 && value < 4)
     {
@@ -16,7 +16,7 @@ int target(int value, int index)
     return 0;
 }
 
-int higher(int value, int index)
+int higher(float value, int index)
 {
     if (value >= 4)
     {
@@ -28,33 +28,17 @@ int higher(int value, int index)
 
 int main()
 {
-    int _numbers[] = {1, 2, 3, 4, 5};
+    float _numbers[] = {1.5, 2, 3, 4, 5};
     int length = sizeof(_numbers) / sizeof(_numbers[0]);
 
-    iterator(int) numbers = init_iterator(int, _numbers, length);
-    iterator(int) squaredNumbers = numbers.map(square, numbers);
-    iterator(int) halfNumbers = numbers.splice(0, 3, numbers);
-    iterator(int) filtered = numbers.filter(higher, numbers);
+    iterator(float) numbers = init_iterator(float, _numbers, length);
+    iterator(float) squaredNumbers = numbers.map(square, numbers);
+    iterator(float) halfNumbers = numbers.splice(0, 3, numbers);
+    iterator(float) filtered = numbers.filter(higher, numbers);
     int targetFound = numbers.find(target, numbers);
 
-    for (int i = 0; i < squaredNumbers.len; i++)
-    {
-        printf("Squared Value: %d\n", squaredNumbers.iterator[i]);
-    }
-
-    for (int i = 0; i < halfNumbers.len; i++)
-    {
-        printf("Halved Value: %d\n", halfNumbers.iterator[i]);
-    }
-
-    for (int i = 0; i < filtered.len; i++)
-    {
-        printf("Higher Numbers: %d\n", filtered.iterator[i]);
-    }
-
-    printf("Target Found: %d\n", targetFound);
-
-    destroy_iterator(int, squaredNumbers);
-    destroy_iterator(int, halfNumbers);
+    destroy_iterator(float, squaredNumbers);
+    destroy_iterator(float, halfNumbers);
+    destroy_iterator(float, filtered);
     return 0;
 }
