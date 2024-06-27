@@ -101,24 +101,24 @@
     }                                                                                             \
     return new_struct_iterator;
 
-#define iterator_filter(type, condition, var, iterator)                                                       \
-    int size = 0;                                                                                             \
-    for (int i = 0; i < iterator.len; i++)                                                                    \
-    {                                                                                                         \
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var) \
-        {                                                                                                     \
-            size++;                                                                                           \
-        }                                                                                                     \
-    }                                                                                                         \
-    type *pIterator = new (type, size);                                                                       \
-    int index = 0;                                                                                            \
-    for (int i = 0; i < iterator.len; i++)                                                                    \
-    {                                                                                                         \
-        if (condition == '>' && iterator.iterator[i] > var || condition == '<' && iterator.iterator[i] < var) \
-        {                                                                                                     \
-            pIterator[index++] = iterator.iterator[i];                                                        \
-        }                                                                                                     \
-    }                                                                                                         \
-    return init_iterator(type, pIterator, size);
+#define iterator_filter(type, func, iterator)       \
+    int len = 0;                                    \
+    for (int i = 0; i < iterator.len; i++)          \
+    {                                               \
+        if (func(iterator.iterator[i], i))          \
+        {                                           \
+            len++;                                  \
+        }                                           \
+    }                                               \
+    type *newArr = new (type, len);                 \
+    int index = 0;                                  \
+    for (int i = 0; i < iterator.len; i++)          \
+    {                                               \
+        if (func(iterator.iterator[i], i))          \
+        {                                           \
+            newArr[index++] = iterator.iterator[i]; \
+        }                                           \
+    }                                               \
+    return init_iterator(type, newArr, len);
 
 #endif

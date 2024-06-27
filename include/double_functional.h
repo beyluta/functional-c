@@ -19,7 +19,7 @@ typedef struct double_iterator
     int (*every)(double var, struct double_iterator iterator);
     int (*indexOf)(double var, struct double_iterator iterator);
     struct double_iterator (*sort)(struct double_iterator iterator, int direction);
-    struct double_iterator (*filter)(char condition, double var, struct double_iterator iterator);
+    struct double_iterator (*filter)(int (*func)(double, int), struct double_iterator iterator);
     struct double_iterator (*splice)(int from, int to, struct double_iterator iterator);
 } double_iterator;
 
@@ -97,9 +97,9 @@ struct double_iterator double_sort(struct double_iterator iterator, int directio
  * @return the sorted array
  * @warning `(struct int_iterator).iterator` must be freed
  */
-struct double_iterator double_filter(char condition, double var, struct double_iterator iterator)
+struct double_iterator double_filter(int (*func)(double, int), struct double_iterator iterator)
 {
-    iterator_filter(double, condition, var, iterator);
+    iterator_filter(double, func, iterator);
 }
 
 struct double_iterator double_splice(int from, int to, struct double_iterator iterator)

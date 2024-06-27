@@ -16,6 +16,16 @@ int target(int value, int index)
     return 0;
 }
 
+int higher(int value, int index)
+{
+    if (value >= 4)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
 int main()
 {
     int _numbers[] = {1, 2, 3, 4, 5};
@@ -24,6 +34,7 @@ int main()
     iterator(int) numbers = init_iterator(int, _numbers, length);
     iterator(int) squaredNumbers = numbers.map(square, numbers);
     iterator(int) halfNumbers = numbers.splice(0, 3, numbers);
+    iterator(int) filtered = numbers.filter(higher, numbers);
     int targetFound = numbers.find(target, numbers);
 
     for (int i = 0; i < squaredNumbers.len; i++)
@@ -34,6 +45,11 @@ int main()
     for (int i = 0; i < halfNumbers.len; i++)
     {
         printf("Halved Value: %d\n", halfNumbers.iterator[i]);
+    }
+
+    for (int i = 0; i < filtered.len; i++)
+    {
+        printf("Higher Numbers: %d\n", filtered.iterator[i]);
     }
 
     printf("Target Found: %d\n", targetFound);

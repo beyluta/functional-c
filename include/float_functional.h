@@ -19,7 +19,7 @@ typedef struct float_iterator
     int (*every)(float var, struct float_iterator iterator);
     int (*indexOf)(float var, struct float_iterator iterator);
     struct float_iterator (*sort)(struct float_iterator iterator, int direction);
-    struct float_iterator (*filter)(char condition, float var, struct float_iterator iterator);
+    struct float_iterator (*filter)(int (*func)(float, int), struct float_iterator iterator);
     struct float_iterator (*splice)(int from, int to, struct float_iterator iterator);
 } float_iterator;
 
@@ -97,9 +97,9 @@ struct float_iterator float_sort(struct float_iterator iterator, int direction)
  * @return the sorted array
  * @warning `(struct int_iterator).iterator` must be freed
  */
-struct float_iterator float_filter(char condition, float var, struct float_iterator iterator)
+struct float_iterator float_filter(int (*func)(float, int), struct float_iterator iterator)
 {
-    iterator_filter(float, condition, var, iterator);
+    iterator_filter(float, func, iterator);
 }
 
 struct float_iterator float_splice(int from, int to, struct float_iterator iterator)

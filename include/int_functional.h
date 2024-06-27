@@ -19,7 +19,7 @@ typedef struct int_iterator
     int (*every)(int var, struct int_iterator iterator);
     int (*indexOf)(int var, struct int_iterator iterator);
     struct int_iterator (*sort)(struct int_iterator iterator, int direction);
-    struct int_iterator (*filter)(char condition, int var, struct int_iterator iterator);
+    struct int_iterator (*filter)(int (*func)(int, int), struct int_iterator iterator);
     struct int_iterator (*splice)(int from, int to, struct int_iterator iterator);
 } int_iterator;
 
@@ -97,9 +97,9 @@ struct int_iterator int_sort(struct int_iterator iterator, int direction)
  * @return the sorted array
  * @warning `(struct int_iterator).iterator` must be freed
  */
-struct int_iterator int_filter(char condition, int var, struct int_iterator iterator)
+struct int_iterator int_filter(int (*func)(int, int), struct int_iterator iterator)
 {
-    iterator_filter(int, condition, var, iterator);
+    iterator_filter(int, func, iterator);
 }
 
 struct int_iterator int_splice(int from, int to, struct int_iterator iterator)

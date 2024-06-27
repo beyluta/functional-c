@@ -19,7 +19,7 @@ typedef struct short_iterator
     int (*every)(short var, struct short_iterator iterator);
     int (*indexOf)(short var, struct short_iterator iterator);
     struct short_iterator (*sort)(struct short_iterator iterator, int direction);
-    struct short_iterator (*filter)(char condition, short var, struct short_iterator iterator);
+    struct short_iterator (*filter)(int (*func)(short, int), struct short_iterator iterator);
     struct short_iterator (*splice)(int from, int to, struct short_iterator iterator);
 } short_iterator;
 
@@ -97,9 +97,9 @@ struct short_iterator short_sort(struct short_iterator iterator, int direction)
  * @return the sorted array
  * @warning `(struct int_iterator).iterator` must be freed
  */
-struct short_iterator short_filter(char condition, short var, struct short_iterator iterator)
+struct short_iterator short_filter(int (*func)(short, int), struct short_iterator iterator)
 {
-    iterator_filter(short, condition, var, iterator);
+    iterator_filter(short, func, iterator);
 }
 
 struct short_iterator short_splice(int from, int to, struct short_iterator iterator)
