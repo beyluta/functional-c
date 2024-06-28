@@ -1,44 +1,76 @@
 #include <stdio.h>
 #include "functional.h"
 
-float square(float value, int index)
+int square(int value, int index)
 {
     return value * value;
 }
 
-int target(float value, int index)
+int filter(int value, int index)
 {
-    if (value > 2 && value < 4)
-    {
-        return 1;
-    }
-
-    return 0;
+    return value > 50;
 }
 
-int higher(float value, int index)
+int hundreds(int value, int index)
 {
-    if (value >= 4)
-    {
-        return 1;
-    }
+    return value >= 100;
+}
 
-    return 0;
+int lower(int value, int index)
+{
+    return value <= 50;
+}
+
+int find(int value, int index)
+{
+    return value == 81;
 }
 
 int main()
 {
-    float _numbers[] = {1.5, 2, 3, 4, 5};
-    int length = sizeof(_numbers) / sizeof(_numbers[0]);
+    int arrPtr[] = {3, 9, 12};
+    array(int) arr = to_array(int, arrPtr, sizeof(arrPtr) / sizeof(arrPtr[0]));
 
-    iterator(float) numbers = init_iterator(float, _numbers, length);
-    iterator(float) squaredNumbers = numbers.map(square, numbers);
-    iterator(float) halfNumbers = numbers.splice(0, 3, numbers);
-    iterator(float) filtered = numbers.filter(higher, numbers);
-    int targetFound = numbers.find(target, numbers);
+    array(int) squared = arr.map(square, arr);
+    for (int i = 0; i < squared.len; i++)
+    {
+        printf("Squared: %d\n", squared.array[i]);
+    }
 
-    destroy_iterator(float, squaredNumbers);
-    destroy_iterator(float, halfNumbers);
-    destroy_iterator(float, filtered);
+    array(int) filtered = squared.filter(filter, squared);
+    for (int i = 0; i < filtered.len; i++)
+    {
+        printf("Filtered: %d\n", filtered.array[i]);
+    }
+
+    int isHundreds = filtered.some(hundreds, filtered);
+    printf("Is there any value in the hundreds? %d\n", isHundreds);
+
+    int isLower = filtered.every(lower, filtered);
+    printf("Are all values lower than 50? %d\n", isLower);
+
+    int found = filtered.find(find, filtered);
+    printf("Target has been found: %s\n", found ? "Yes" : "No");
+
+    int index = filtered.indexOf(144, filtered);
+    printf("Index of 144 is: %d\n", index);
+
+    array(int) sliced = squared.slice(0, 2, squared);
+    for (int i = 0; i < sliced.len; i++)
+    {
+        printf("Sliced: %d\n", sliced.array[i]);
+    }
+
+    array(int) sorted = sliced.sort(sliced, 0);
+    for (int i = 0; i < sorted.len; i++)
+    {
+        printf("Sorted: %d\n", sorted.array[i]);
+    }
+
+    destroy_array(int, squared);
+    destroy_array(int, filtered);
+    destroy_array(int, sliced);
+    destroy_array(int, sorted);
+
     return 0;
 }
