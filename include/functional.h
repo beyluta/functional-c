@@ -171,6 +171,7 @@ class_iterator(int);
 class_iterator(short);
 class_iterator(float);
 class_iterator(double);
+class_iterator(long);
 class_iterator(char);
 
 #endif
