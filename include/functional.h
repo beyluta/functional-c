@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #define new(type, size) (type *)malloc(size * sizeof(type))
+#define size(ptr) sizeof(ptr) / sizeof(ptr[0])
 #define array(type) type##_array
 #define to_array(type, pArr, length) f_##type##_init(pArr, length)
 #define empty_array(type) f_##type##_init(NULL, 0)
@@ -22,6 +23,7 @@
         struct type##_array (*slice)(int from, int to, struct type##_array array);        \
         struct type##_array (*push)(type var, struct type##_array array);                 \
         struct type##_array (*pop)(struct type##_array array);                            \
+        struct type##_array (*reverse)(struct type##_array array);                        \
     } type##_array;                                                                       \
     struct type##_array f_##type##_init(type *arr, int length);                           \
     struct type##_array type##_map(type (*func)(type, int), struct type##_array array)    \
@@ -168,6 +170,15 @@
         }                                                                                 \
         return to_array(type, new_array, length);                                         \
     }                                                                                     \
+    struct type##_array type##_reverse(struct type##_array array)                         \
+    {                                                                                     \
+        type *new_array = new (type, array.length);                                       \
+        for (int i = array.length; i > 0; i--)                                            \
+        {                                                                                 \
+            new_array[array.length - i] = array.array[i - 1];                             \
+        }                                                                                 \
+        return to_array(type, new_array, array.length);                                   \
+    }                                                                                     \
     struct type##_array f_##type##_init(type *arr, int length)                            \
     {                                                                                     \
         struct type##_array array = {                                                     \
@@ -182,7 +193,8 @@
             array.filter = type##_filter,                                                 \
             array.slice = type##_slice,                                                   \
             array.push = type##_push,                                                     \
-            array.pop = type##_pop};                                                      \
+            array.pop = type##_pop,                                                       \
+            array.reverse = type##_reverse};                                              \
         return array;                                                                     \
     }                                                                                     \
     void f_##type##_destroy(struct type##_array array)                                    \
