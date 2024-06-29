@@ -32,13 +32,13 @@ int main()
     array(int) arr = to_array(int, arrPtr, sizeof(arrPtr) / sizeof(arrPtr[0]));
 
     array(int) squared = arr.map(square, arr);
-    for (int i = 0; i < squared.len; i++)
+    for (int i = 0; i < squared.length; i++)
     {
         printf("Squared: %d\n", squared.array[i]);
     }
 
     array(int) filtered = squared.filter(filter, squared);
-    for (int i = 0; i < filtered.len; i++)
+    for (int i = 0; i < filtered.length; i++)
     {
         printf("Filtered: %d\n", filtered.array[i]);
     }
@@ -56,13 +56,13 @@ int main()
     printf("Index of 144 is: %d\n", index);
 
     array(int) sliced = squared.slice(0, 2, squared);
-    for (int i = 0; i < sliced.len; i++)
+    for (int i = 0; i < sliced.length; i++)
     {
         printf("Sliced: %d\n", sliced.array[i]);
     }
 
     array(int) sorted = sliced.sort(sliced, 0);
-    for (int i = 0; i < sorted.len; i++)
+    for (int i = 0; i < sorted.length; i++)
     {
         printf("Sorted: %d\n", sorted.array[i]);
     }
